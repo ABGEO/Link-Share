@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Temuri Takalandze (ABGEO)">
 
-    <title>{% block title %}Main{% endblock %} | Link Share</title>
+    <title>{% block title %}Home{% endblock %} | Link Share</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -37,13 +37,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
-                    </li>
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded active" href="{{ path('index') }}">Home</a>
                     </li>
                 </ul>
             </div>
