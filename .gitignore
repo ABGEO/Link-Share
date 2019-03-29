@@ -18,3 +18,5 @@
 ###< symfony/web-server-bundle ###
 
 .idea
+public/vendor
+public/node_modules
