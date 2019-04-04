@@ -1,155 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <!-- Authorization Modal -->
-    <div class="portfolio-modal mfp-hide" id="authorization-modal">
-        <div class="portfolio-modal-dialog bg-white">
-            <div class="container text-center">
-                <a class="close-button d-md-block portfolio-modal-dismiss" href="#">
-                    <i class="fa fa-3x fa-times"></i>
-                </a>
-
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <h2 class="text-secondary text-uppercase mb-0">Authorization</h2>
-                        <hr class="star-dark mb-5">
-
-                        <!-- Sign In Box -->
-                        <div class="row" id="signInBox">
-                            <div class="col-lg-8 mx-auto">
-                                <h3 class="text-secondary">Sign In</h3>
-
-                                <form name="signInForm" action="" method="post">
-                                    <input name="token" type="hidden" value="{{ csrf_token('sign-in') }}" />
-
-                                    <div class="form-group">
-                                        <div class="col-md-12 control">
-                                            Don't have an account?
-                                            <a href="#" onClick="showForm('signUpBox')">Sign Up Here</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>E-Mail</label>
-                                            <input class="form-control" name="signInEmail" type="email" placeholder="E-Mail">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>Password</label>
-                                            <input class="form-control" name="signInPassword" type="password" placeholder="Password">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="col-md-12 control">
-                                            <a href="#" onClick="showForm('forgotBox')">Forgot password?</a>
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-xl" name="signInSubmit">Sihgn In</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End Sign In Box -->
-
-                        <!-- Sign Up Box -->
-                        <div id="signUpBox">
-                            <div class="col-lg-8 mx-auto">
-                                <h3 class="text-secondary">Sign Up</h3>
-
-                                <form name="signUpForm" action="" method="post">
-                                    <div class="form-group">
-                                        <div class="col-md-12 control">
-                                            Do you have an account?
-                                            <a href="#" onClick="showForm('signInBox')">Sign In Here</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>E-Mail</label>
-                                            <input class="form-control" name="signUpEmail" type="email" placeholder="E-Mail">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>Password</label>
-                                            <input class="form-control" id="signUpPassword" type="password" placeholder="Password">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>Repeat Password</label>
-                                            <input class="form-control" id="signUpRepPassword" type="password" placeholder="Repeat Password">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-xl" name="signUpSubmit">Sign Up</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End Sign Up Box -->
-
-                        <!-- Forgot Box -->
-                        <div id="forgotBox">
-                            <div class="col-lg-8 mx-auto">
-                                <h3 class="text-secondary">Forgot Password</h3>
-
-                                <form name="forgotForm" action="" method="post">
-                                    <div class="form-group">
-                                        <div class="col-md-12 control">
-                                            <a href="#" onClick="showForm('signInBox')">Sign In</a> |
-                                            <a href="#" onClick="showForm('signUpBox')">Sign Up</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                                            <label>E-Mail Address</label>
-                                            <input class="form-control" id="forgotEmail" type="email" placeholder="E-Mail Address">
-                                            <p class="help-block text-danger"></p>
-                                        </div>
-                                    </div>
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-xl" name="forgotSubmit">Forgot</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End Forgot Box -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Authorization Modal -->
-
     <!-- Header -->
     <header class="masthead bg-primary text-white text-center">
         <div class="container">
-            <!--<img class="img-fluid mb-5 d-block mx-auto" src="img/profile.png" alt="">-->
+            <img class="img-fluid mb-5 d-block mx-auto" src="{{ asset('img/link.png') }}" alt="" width="100">
             <h3 class="font-weight-light">Welcome to</h3>
             <h1 class="text-uppercase mb-0">Link Share</h1>
             <hr class="star-light">
@@ -163,11 +18,15 @@
             <h2 class="text-center text-uppercase text-secondary mb-0">Create Link</h2>
             <hr class="star-dark mb-5">
 
-            <h4 class="text-center text-secondary">
-                Only authorized users can share links.
-                <a class="nav-link portfolio-item py-3 px-0 px-lg-3 rounded" onClick="showForm('signInBox')" href="#authorization-modal">Sign in</a>
-                to continue.
-            </h4>
+            {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <h4 class="text-center text-secondary">
+                    Only authorized users can share links.
+                    <a class="nav-link portfolio-item py-3 px-0 px-lg-3 rounded" onClick="showForm('signInBox')" href="#authorization-modal">Sign in</a>
+                    to continue.
+                </h4>
+            {% else %}
+                <h4 class="text-center text-secondary">Create</h4>
+            {% endif %}
 
         </div>
     </section>
@@ -193,8 +52,4 @@
             </div>
         </div>
     </section>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('js/authorization.js') }}"></script>
 {% endblock %}

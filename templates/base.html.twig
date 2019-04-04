@@ -9,15 +9,16 @@
     <title>{% block title %}Home{% endblock %} | Link Share</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('node_modules/@fortawesome/fontawesome-free/css/all.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Plugin CSS -->
-    <link href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('node_modules/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('node_modules/toastr/build/toastr.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/freelancer.min.css') }}" rel="stylesheet">
@@ -28,6 +29,9 @@
 <body id="page-top">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+
+        {% set route = app.request.attributes.get('_route') %}
+
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">Link Share</a>
             <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,13 +41,162 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded active" href="{{ path('index') }}">Home</a>
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded {{ route != 'index' ?: 'active' }}" href="{{ path('index') }}">Home</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- End Navigation -->
+
+    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <!-- Authorization Modal -->
+        <div class="portfolio-modal mfp-hide" id="authorization-modal">
+            <div class="portfolio-modal-dialog bg-white">
+                <div class="container text-center">
+                    <a class="close-button d-md-block portfolio-modal-dismiss" href="#">
+                        <i class="fa fa-3x fa-times"></i>
+                    </a>
+
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h2 class="text-secondary text-uppercase mb-0">Authorization</h2>
+                            <hr class="star-dark mb-5">
+
+                            <!-- Sign In Box -->
+                            <div class="row" id="signInBox">
+                                <div class="col-lg-8 mx-auto">
+                                    <h3 class="text-secondary">Sign In</h3>
+
+                                    <form name="signInForm" action="{{ path('app_login') }}" method="POST">
+                                        <input name="signInToken" type="hidden" value="{{ csrf_token('sign-in') }}" />
+
+                                        <div class="form-group">
+                                            <div class="col-md-12 control">
+                                                Don't have an account?
+                                                <a href="#" onClick="showForm('signUpBox')">Sign Up Here</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label for="signInEmail">E-Mail</label>
+                                                <input class="form-control" id="signInEmail" name="signInEmail" type="email" placeholder="E-Mail">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label for="signInPassword">Password</label>
+                                                <input class="form-control" id="signInPassword" name="signInPassword" type="password" placeholder="Password">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="col-md-12 control">
+                                                <a href="#" onClick="showForm('forgotBox')">Forgot password?</a>
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary btn-xl" id="signInSubmit">Sign In</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Sign In Box -->
+
+                            <!-- Sign Up Box -->
+                            <div id="signUpBox">
+                                <div class="col-lg-8 mx-auto">
+                                    <h3 class="text-secondary">Sign Up</h3>
+
+                                    <form name="signUpForm" action="{{ path('app_register') }}" method="POST">
+                                        <div class="form-group">
+                                            <div class="col-md-12 control">
+                                                Do you have an account?
+                                                <a href="#" onClick="showForm('signInBox')">Sign In Here</a>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="signUpToken" value="{{ csrf_token('sign-up') }}" />
+
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label for="signUpEmail">E-Mail</label>
+                                                <input class="form-control" id="signUpEmail" name="signUpEmail" type="email" placeholder="E-Mail">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label for="signUpPassword">Password</label>
+                                                <input class="form-control" id="signUpPassword" name="signUpPassword" type="password" placeholder="Password">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label for="signUpRepPassword">Repeat Password</label>
+                                                <input class="form-control" id="signUpRepPassword" name="signUpRepPassword" type="password" placeholder="Repeat Password">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary btn-xl" id="signUpSubmit">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Sign Up Box -->
+
+                            <!-- Forgot Box -->
+                            <div id="forgotBox">
+                                <div class="col-lg-8 mx-auto">
+                                    <h3 class="text-secondary">Forgot Password</h3>
+
+                                    <form name="forgotForm" action="" method="post">
+                                        <div class="form-group">
+                                            <div class="col-md-12 control">
+                                                <a href="#" onClick="showForm('signInBox')">Sign In</a> |
+                                                <a href="#" onClick="showForm('signUpBox')">Sign Up</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                <label>E-Mail Address</label>
+                                                <input class="form-control" id="forgotEmail" type="email" placeholder="E-Mail Address">
+                                                <p class="help-block text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-xl" id="forgotSubmit">Forgot</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Forgot Box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Authorization Modal -->
+    {% endif %}
 
     {% block body %}{% endblock %}
 
@@ -109,15 +262,18 @@
     </div>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('node_modules/jquery.easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('node_modules/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('node_modules/toastr/build/toastr.min.js') }}"></script>
 
     <!-- Custom scripts for this template -->
     <script src="{{ asset('js/freelancer.min.js') }}"></script>
+
+    <script src="{{ asset('js/authorization.js') }}"></script>
 
     {% block javascripts %}{% endblock %}
 </body>
