@@ -20,3 +20,36 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
 };
+
+/**
+ * Add new row to table.
+ */
+$('#addNewRow').on('click', function () {
+    let lastRow = $('table#urlsTable > tbody>tr:last');
+    let lastUrl = lastRow.find('input[name=rowUrl]');
+
+    if (lastUrl.val() === '') {
+        toastr.error('Please, insert URL!');
+        lastUrl.focus();
+    } else {
+        let newRow = $("<tr>");
+
+        let cols = '<td><label><input type="text" class="form-control" name="rowUrl"/></label></td>';
+        cols += '<td><label><input type="text" class="form-control" name="rowTags"/></label></td>';
+        cols += '<td><label><input type="text" class="form-control" name="rowDesc"/></label></td>';
+        cols += '<td><input type="button" class="btn btn-md btn-danger" onclick="deleteRow(this);" value="Remove"></td>';
+
+        newRow.append(cols);
+
+        $("table.order-list").append(newRow);
+    }
+});
+
+/**
+ * Remove row.
+ *
+ * @param element
+ */
+function deleteRow (element) {
+    $(element).closest("tr").remove();
+}

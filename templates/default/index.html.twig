@@ -25,9 +25,50 @@
                     to continue.
                 </h4>
             {% else %}
-                <h4 class="text-center text-secondary">Create</h4>
-            {% endif %}
+                <div class="col-lg-10 mx-auto">
+                    <table id="urlsTable" class="table order-list">
+                        <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Tags</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><label><input type="text" class="form-control" name="rowUrl"/></label></td>
+                            <td><label><input type="text" class="form-control" name="rowTags"/></label></td>
+                            <td><label><input type="text" class="form-control" name="rowDesc"/></label></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <input type="button" class="btn btn-primary" id="addNewRow" value="Add New URL"/>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
 
+                    <form name="shareURL" action="" method="POST">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                <label for="shareURLsDesc">Description</label>
+                                <textarea class="form-control" id="shareURLsDesc" rows="2" placeholder="Description"></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="form-group">
+                            <button type="button" class="btn btn-lg btn-primary">Share URL's</button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
         </div>
     </section>
 
