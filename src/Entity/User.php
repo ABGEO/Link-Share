@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,17 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\URLPacks", mappedBy="user", orphanRemoval=true)
+     */
+    private $URLPacks;
+
+    public function __construct()
+    {
+        $this->URLPacks = new ArrayCollection();
+        $this->roles[] = 'ROLE_USER';
+    }
 
     public function getId(): ?int
     {
@@ -117,4 +130,25 @@ class User implements UserInterface
      * @see UserInterface
      */
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|URLPacks[]
+     */
+    public function getURLPacks(): Collection
+    {
+        return $this->URLPacks;
+    }
+
+    public function removeURLPack(URLPacks $uRLPack): self
+    {
+        if ($this->URLPacks->contains($uRLPack)) {
+            $this->URLPacks->removeElement($uRLPack);
+            // set the owning side to null (unless already changed)
+            if ($uRLPack->getUser() === $this) {
+                $uRLPack->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

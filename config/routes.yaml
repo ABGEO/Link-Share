@@ -2,6 +2,11 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
+create_pack:
+    path: /createPack
+    controller: App\Controller\DefaultController::createPack
+    methods: POST
+
 # Auth
 app_register:
     path: /register

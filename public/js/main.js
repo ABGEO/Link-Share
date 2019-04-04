@@ -88,8 +88,31 @@ $('#shareURLs').on('click', function () {
     //Check if all URL area not empty
     if (validate) {
         let description = $('textarea#shareURLsDesc').val();
+        let form = $('form[name=shareURL]');
+        let token = $('input[name=shareToken]').val();
+        let btn = $('#shareURLs');
 
-        console.log(description);
-        console.log(packs);
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: {token, description, packs},
+            cache: false,
+            success: function (response) {
+                if (response === 'created') {
+                    toastr.error('You\'r pack created successfully!');
+                } else {
+                    console.log(response);
+                    toastr.error('An error has occurred. Try again!');
+                }
+
+                btn.prop("disabled", false);
+            },
+            error: function (response) {
+                //Error response
+                console.log(response);
+                toastr.error('An error has occurred. Try again!');
+                btn.prop("disabled", false);
+            }
+        });
     }
 });
