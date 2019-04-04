@@ -67,9 +67,11 @@ $('#shareURLs').on('click', function () {
         let URLTags = $(this).find('input[name=rowTags]');
         let URLDesc = $(this).find('input[name=rowDesc]');
 
-        //Check if URL is empty
-        if (URL.val() === '') {
-            toastr.error('Please, insert URL or remove the row!');
+        let re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+
+        //Validate URL
+        if (!re.test(String(URL.val()).toLowerCase())) {
+            toastr.error('Invalid URL Format!');
             URL.focus();
             validate = false;
             return;
