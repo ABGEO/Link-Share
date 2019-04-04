@@ -25,7 +25,7 @@ toastr.options = {
  * Add new row to table.
  */
 $('#addNewRow').on('click', function () {
-    let lastRow = $('table#urlsTable > tbody>tr:last');
+    let lastRow = $('table#urlsTable>tbody>tr:last');
     let lastUrl = lastRow.find('input[name=rowUrl]');
 
     if (lastUrl.val() === '') {
@@ -53,3 +53,43 @@ $('#addNewRow').on('click', function () {
 function deleteRow (element) {
     $(element).closest("tr").remove();
 }
+
+/**
+ * Add given urls in DB
+ */
+$('#shareURLs').on('click', function () {
+    let packs = [];
+    let validate = true;
+
+    //Get all urls from table
+    $('table#urlsTable>tbody>tr').each(function () {
+        let URL = $(this).find('input[name=rowUrl]');
+        let URLTags = $(this).find('input[name=rowTags]');
+        let URLDesc = $(this).find('input[name=rowDesc]');
+
+        //Check if URL is empty
+        if (URL.val() === '') {
+            toastr.error('Please, insert URL or remove the row!');
+            URL.focus();
+            validate = false;
+            return;
+        } else {
+            let pack = {
+                'url': URL.val(),
+                'tags': URLTags.val(),
+                'desc': URLDesc.val()
+            };
+
+            //Add URL to URLs Array
+            packs.push(pack);
+        }
+    });
+
+    //Check if all URL area not empty
+    if (validate) {
+        let description = $('textarea#shareURLsDesc').val();
+
+        console.log(description);
+        console.log(packs);
+    }
+});
