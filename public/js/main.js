@@ -99,7 +99,7 @@ $('#shareURLs').on('click', function () {
             cache: false,
             success: function (response) {
                 if (response === 'created') {
-                    toastr.error('You\'r pack created successfully!');
+                    toastr.success('You\'r pack created successfully!');
                 } else {
                     console.log(response);
                     toastr.error('An error has occurred. Try again!');
