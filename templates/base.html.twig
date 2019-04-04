@@ -43,6 +43,23 @@
                     <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 rounded {{ route != 'index' ?: 'active' }}" href="{{ path('index') }}">Home</a>
                     </li>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link  py-3 px-0 px-lg-3 rounded dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Profile
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">My Links</a>
+                                <a class="dropdown-item" href="#">Edit Account</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" style="color: red;" href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-link  portfolio-item py-3 px-0 px-lg-3" onClick="showForm('signInBox')" href="#authorization-modal">Auth</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
