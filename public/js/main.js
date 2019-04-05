@@ -100,8 +100,14 @@ $('#shareURLs').on('click', function () {
             data: {token, description, packs},
             cache: false,
             success: function (response) {
-                if (response === 'created') {
-                    toastr.success('You\'r pack created successfully!');
+                response = JSON.parse(response);
+
+                if (response.status === 'created') {
+                    let sharedLink = $('input#sharedLink');
+                    let sharedLinkVal = sharedLink.val().replace('packLinkID', response.additions);
+                    sharedLink.val(sharedLinkVal);
+
+                    $('#packCreatedModal').modal();
                 } else {
                     console.log(response);
                     toastr.error('An error has occurred. Try again!');
@@ -117,4 +123,20 @@ $('#shareURLs').on('click', function () {
             }
         });
     }
+});
+
+/**
+ * Copy link to clipboard.
+ */
+$('#copySharedLink').on('click', function () {
+    $('input#sharedLink').select();
+    document.execCommand("copy");
+    toastr.info('URL copied to clipboard.');
+});
+
+/**
+ * Open link location.
+ */
+$('#openSharedLink').on('click', function () {
+    window.location.href = $('input#sharedLink').val();
 });

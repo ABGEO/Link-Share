@@ -7,6 +7,9 @@ create_pack:
     controller: App\Controller\DefaultController::createPack
     methods: POST
 
+pack_link:
+    path: /pack/{id}
+
 # Auth
 app_register:
     path: /register

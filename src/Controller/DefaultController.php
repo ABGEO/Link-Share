@@ -67,11 +67,17 @@ class DefaultController extends AbstractController
             $em->persist($URLPacks);
             $em->flush();
 
-            $response = 'created';
+            $response = array(
+                'status' => 'created',
+                'additions' => $URLPacks->getUniqLink()
+            );
         } else {
-            $response = 'invalidToken';
+            $response = array(
+                'status' => 'invalidToken',
+                'additions' => null
+            );
         }
 
-        return new Response($response);
+        return new Response(json_encode($response));
     }
 }

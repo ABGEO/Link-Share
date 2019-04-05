@@ -25,6 +25,48 @@
                     to continue.
                 </h4>
             {% else %}
+                <!-- Pack Created Modal -->
+                <div class="modal fade" id="packCreatedModal" tabindex="-1" role="dialog" aria-labelledby="packCreatedModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="packCreatedModalTitle">New Links Pack</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form>
+                                    <p>You'r new link pack created successfully. See it in link bellow.</p>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-md-8">
+                                            <label class="sr-only" for="sharedLink">Link</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">&#128279;</div>
+                                                </div>
+                                                <input type="text" class="form-control"
+                                                       value="{{ app.request.scheme ~'://' ~ app.request.httpHost ~  path('pack_link', {'id' : 'packLinkID'}) }}"
+                                                       id="sharedLink" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary mb-2" id="copySharedLink">Copy</button>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary mb-2" id="openSharedLink">Open</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Pack Created Modal -->
+
                 <div class="col-lg-10 mx-auto">
                     <table id="urlsTable" class="table order-list">
                         <thead>
