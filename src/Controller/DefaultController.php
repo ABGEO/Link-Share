@@ -18,9 +18,7 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -79,5 +77,30 @@ class DefaultController extends AbstractController
         }
 
         return new Response(json_encode($response));
+    }
+
+    /**
+     * Get single pack.
+     *
+     * @param String $id
+     *
+     * @return Response
+     */
+    public function getPack($id)
+    {
+        //Get URLPacks repository
+        $packRepo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(URLPacks::class);
+
+        //Find pack
+        if ($pack = $packRepo->findOneBy(['uniqLink' => $id])) {
+            return $this->render('default/pack.html.twig', [
+                'pack' => $pack,
+            ]);
+        }
+
+        //Abort if it not found
+        throw $this->createNotFoundException("URL Pack \"{$id}\" not Found or has been removed.");
     }
 }

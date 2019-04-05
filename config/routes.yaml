@@ -9,6 +9,7 @@ create_pack:
 
 pack_link:
     path: /pack/{id}
+    controller: App\Controller\DefaultController::getPack
 
 # Auth
 app_register:
