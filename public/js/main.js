@@ -28,6 +28,8 @@ $('#addNewRow').on('click', function () {
     let lastRow = $('table#urlsTable>tbody>tr:last');
     let lastUrl = lastRow.find('input[name=rowUrl]');
 
+    toastr.clear();
+
     if (lastUrl.val() === '') {
         toastr.error('Please, insert URL!');
         lastUrl.focus();
@@ -60,6 +62,8 @@ function deleteRow (element) {
 $('#shareURLs').on('click', function () {
     let packs = [];
     let validate = true;
+
+    toastr.clear();
 
     //Get all urls from table
     $('table#urlsTable>tbody>tr').each(function () {
