@@ -105,9 +105,9 @@ $('#signInSubmit').click(function () {
             cache: false,
             success: function (response) {
                 if (response === 'invalidCredentials') {
-                    toastr.error('მონაცემები არასწორია!', {timeOut: 5000});
+                    toastr.error('Invalid credentials!', {timeOut: 5000});
                 } else if (response === 'successLogIn') {
-                    toastr.success('წარმატებული ავტორიზაცია!', {timeOut: 2000});
+                    toastr.success('Successful authorization!', {timeOut: 2000});
                     setTimeout(function () {
                         location.reload();
                     }, 2000)
