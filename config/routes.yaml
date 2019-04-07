@@ -11,6 +11,10 @@ pack_link:
     path: /pack/{id}
     controller: App\Controller\DefaultController::getPack
 
+my_packs:
+    path: /myPacks
+    controller: App\Controller\DefaultController::myPacks
+
 # Auth
 app_register:
     path: /register

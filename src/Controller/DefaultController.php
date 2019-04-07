@@ -113,6 +113,35 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * Get user packs.
+     *
+     * @param Security $security
+     *
+     * @return Response
+     */
+    public function myPacks(Security $security)
+    {
+        //Abort if not authenticated
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        //Get Doctrine and Entity Manager
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        //Get User repo
+        $userRepo = $em->getRepository(User::class);
+
+        //Get current user
+        $user = $userRepo->findOneBy(['username' => $security->getUser()->getUsername()]);
+
+        $userPacks = $user->getURLPacks();
+
+        return $this->render('default/my_packs.html.twig', [
+            'packs' => $userPacks->count() ? $userPacks : null
+        ]);
+    }
+
+    /**
      * Get additional info from website.
      *
      * @param string $url

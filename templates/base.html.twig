@@ -47,11 +47,12 @@
                     </li>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link  py-3 px-0 px-lg-3 rounded dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link  py-3 px-0 px-lg-3 rounded dropdown-toggle  {{ route != 'my_packs' ?: 'active' }}"
+                               href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Profile
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">My Links</a>
+                                <a class="dropdown-item {{ route != 'my_packs' ?: 'active' }}" href="{{ path('my_packs') }}">My Packs</a>
                                 <a class="dropdown-item" href="#">Edit Account</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Logout</a>
