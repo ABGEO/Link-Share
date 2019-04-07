@@ -26,6 +26,7 @@
                                         <a href="{{ path('pack_link', {'id' : pack.uniqLink}) }}">{{ pack.uniqLink }}</a>
                                     </h5>
                                     <p class="card-text">{{ pack.description }}</p>
+                                    <p class="card-text"><b>{{ pack.links|length }}</b> link in pack.</p>
 
                                     <a href="{{ path('pack_link', {'id' : pack.uniqLink}) }}" class="btn btn-primary">Open Pack</a>
                                     <a href="#" data-pack="{{ pack.id }}" class="btn btn-danger remove-pack">Remove</a>
