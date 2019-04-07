@@ -24,18 +24,28 @@
 
                         {% for link in pack.links %}
                             <div class="col-md-4 mt-2">
-                                <div class="card text-left">
-                                    {#<img class="card-img-top" src="{{ asset(listItems[random(listItems | keys)]) }}" alt="Card image cap">#}
+                                <div class="card text-left link-card">
+                                    {#{% if link.website.screen != '' %}
+                                        <img class="card-img-top url-screen" src="{{ link.website.screen }}" alt="{{ link.website.domain }} Screenshot">
+                                    {% endif %}#}
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ link.desc }}</h5>
-                                        <p class="card-text">{{ link.url }}</p>
+                                        <h5 class="card-title"><a href="{{ link.url }}">{{ link.website.title }}</a></h5>
+                                        <p class="card-text">{{ link.website.description }}</p>
+                                        <p class="card-text">{{ link.desc }}</p>
 
                                         <div class="tags pb-3">
                                             {% set tags = link.tags|split(',') %}
                                             {% for tag in tags %}
-                                                <span class="badge {{ badgeStyles[random(badgeStyles | keys)] }}">{{ tag|trim }}</span>
+                                                <span class="badge badge-pill {{ badgeStyles[random(badgeStyles | keys)] }}">{{ tag|trim }}</span>
                                             {% endfor %}
                                         </div>
+
+                                        <p>
+                                            {% if link.website.favicon != '' %}
+                                                <img class="card-img-top url-favicon" src="{{ link.website.favicon }}" alt="{{ link.website.domain }} Favicon">
+                                            {% endif %}
+                                            <a href="http://{{ link.website.domain }}" target="_blank" class="text-success small">{{ link.website.domain }}</a>
+                                        </p>
 
                                         <a href="{{ link.url }}" target="_blank" class="btn btn-primary">Open Link</a>
                                     </div>

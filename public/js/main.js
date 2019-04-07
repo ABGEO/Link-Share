@@ -63,6 +63,8 @@ $('#shareURLs').on('click', function () {
     let packs = [];
     let validate = true;
 
+    $(this).prop("disabled", true);
+
     toastr.clear();
 
     //Get all urls from table
@@ -70,7 +72,6 @@ $('#shareURLs').on('click', function () {
         let URL = $(this).find('input[name=rowUrl]');
         let URLTags = $(this).find('input[name=rowTags]');
         let URLDesc = $(this).find('input[name=rowDesc]');
-
         let re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
 
         //Validate URL
@@ -96,7 +97,6 @@ $('#shareURLs').on('click', function () {
         let description = $('textarea#shareURLsDesc').val();
         let form = $('form[name=shareURL]');
         let token = $('input[name=shareToken]').val();
-        let btn = $('#shareURLs');
 
         $.ajax({
             url: form.attr('action'),
@@ -117,15 +117,17 @@ $('#shareURLs').on('click', function () {
                     toastr.error('An error has occurred. Try again!');
                 }
 
-                btn.prop("disabled", false);
+                $(this).prop("disabled", false);
             },
             error: function (response) {
                 //Error response
                 console.log(response);
                 toastr.error('An error has occurred. Try again!');
-                btn.prop("disabled", false);
+                $(this).prop("disabled", false);
             }
         });
+    } else {
+        $(this).prop("disabled", false);
     }
 });
 

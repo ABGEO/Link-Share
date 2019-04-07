@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\URLPacks;
 use App\Entity\User;
+use Goutte\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -39,7 +41,7 @@ class DefaultController extends AbstractController
 
         $token = $request->get('token');
         $description = $request->get('description');
-        $packs = $request->get('packs');
+        $urls = $request->get('packs');
 
         //Check token
         if ($this->isCsrfTokenValid('share-links', $token)) {
@@ -53,12 +55,18 @@ class DefaultController extends AbstractController
             //Get current user
             $user = $userRepo->findOneBy(['username' => $security->getUser()->getUsername()]);
 
+            $urlsFull = array();
+            foreach ($urls as $url) {
+                $url['website'] = $this->_parseWebsite($url['url']);
+                array_push($urlsFull, $url);
+            }
+
             //Create new pack
             $URLPacks = new URLPacks();
 
             $URLPacks->setUser($user)
                 ->setDescription($description)
-                ->setLinks($packs)
+                ->setLinks($urlsFull)
                 ->setUniqLink(md5(time().$description.uniqid()));
 
             //Save in DB
@@ -102,5 +110,36 @@ class DefaultController extends AbstractController
 
         //Abort if it not found
         throw $this->createNotFoundException("URL Pack \"{$id}\" not Found or has been removed.");
+    }
+
+    /**
+     * Get additional info from website.
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    private function _parseWebsite(string $url): array
+    {
+        //Create new User-Agent
+        $client = new Client();
+
+        $response = $client->request('GET', $url);
+
+        $crawler = new Crawler($response->html());
+
+        $domain = parse_url($url, PHP_URL_HOST);
+        $description = $crawler->filterXpath("//meta[@name='description']")->extract(array('content'));
+
+        //Get website favicon
+        $favicon = null;
+        $favicon = @file_get_contents("https://www.google.com/s2/favicons?domain={$domain}");
+
+        return [
+            'domain' => $domain,
+            'title' => $crawler->filterXPath('//head/title')->getNode(0)->textContent,
+            'description' => isset($description[0]) ? $description[0] : null,
+            'favicon' => $favicon == null ? '' : 'data:image/jpeg;base64,' . base64_encode($favicon)
+        ];
     }
 }

@@ -15,12 +15,11 @@
     <!-- Create Link Section -->
     <section id="create">
         <div class="container">
-            <h2 class="text-center text-uppercase text-secondary mb-0">Create Link</h2>
-            <hr class="star-dark mb-5">
+            <h2 class="text-center text-uppercase text-secondary pb-5">Create Your Pack</h2>
 
             {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <h4 class="text-center text-secondary">
-                    Only authorized users can share links.
+                    Only authorized users can create packs.
                     <a class="nav-link portfolio-item py-3 px-0 px-lg-3 rounded" onClick="showForm('signInBox')" href="#authorization-modal">Sign in</a>
                     to continue.
                 </h4>
