@@ -142,6 +142,43 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * Remove pack.
+     *
+     * @param $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function removePack($id, Request $request)
+    {
+        //Get token from request
+        $token = $request->request->get('token');
+
+        //Check token
+        if ($this->isCsrfTokenValid('remove-pack', $token)) {
+            //Get Doctrine and Entity Manager
+            $doctrine = $this->getDoctrine();
+            $em = $doctrine->getManager();
+
+            //Get repository
+            $packsRepo = $doctrine->getRepository(URLPacks::class);
+
+            //Get pack for deleting
+            $pack = $packsRepo->find($id);
+
+            //Remove pack
+            $em->remove($pack);
+            $em->flush();
+
+            $return = 'removed';
+        } else {
+            $return = 'invalidToken';
+        }
+
+        return new Response($return);
+    }
+
+    /**
      * Get additional info from website.
      *
      * @param string $url

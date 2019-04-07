@@ -146,3 +146,45 @@ $('#copySharedLink').on('click', function () {
 $('#openSharedLink').on('click', function () {
     window.location.href = $('input#sharedLink').val();
 });
+
+/**
+ * Remove user pack.
+ */
+$('.remove-pack').on('click', function () {
+    swal({
+        title: 'Are you sure?',
+        text: 'All links in this pack will be deleted!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            let packId = $(this).data('pack');
+            let token = $('input[name=token]').val();
+
+            $.ajax({
+                url: '/removePack/' + packId,
+                type: 'POST',
+                data: {token},
+                cache: false,
+                success: function (response) {
+                    if (response === 'removed') {
+                        swal('Pack has been removed successfully!', {
+                            icon: 'success'
+                        });
+
+                        $('#pack-' + packId).remove();
+                    } else {
+                        console.log(response);
+                        toastr.error('An error has occurred. Try again!');
+                    }
+                },
+                error: function (response) {
+                    //Error response
+                    console.log(response);
+                    toastr.error('An error has occurred. Try again!');
+                }
+            });
+        }
+    });
+});

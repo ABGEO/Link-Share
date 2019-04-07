@@ -15,6 +15,11 @@ my_packs:
     path: /myPacks
     controller: App\Controller\DefaultController::myPacks
 
+remove_pack:
+    path: /removePack/{id}
+    controller: App\Controller\DefaultController::removePack
+    methods: POST
+
 # Auth
 app_register:
     path: /register

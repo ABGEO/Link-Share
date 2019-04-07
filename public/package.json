@@ -32,6 +32,7 @@
         "jquery.easing": "^1.4.1",
         "magnific-popup": "^1.1.0",
         "popper.js": "^1.15.0",
+        "sweetalert": "^2.1.2",
         "toastr": "^2.1.4"
     },
     "devDependencies": {
